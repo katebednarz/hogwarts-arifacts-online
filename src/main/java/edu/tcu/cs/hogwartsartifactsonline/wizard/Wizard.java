@@ -1,19 +1,18 @@
-package edu.tcu.cs.hogwartsartifactsonline.wizard;
 
-import edu.tcu.cs.hogwartsartifactsonline.artifact.Artifact;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+package edu.tcu.cs.hogwartsartifactsonline.wizard;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.tcu.cs.hogwartsartifactsonline.artifact.Artifact;
+import jakarta.persistence.*;
+
 @Entity
-public class Wizard implements Serializable {
+public class Wizard implements Serializable{
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     private String name;
@@ -21,12 +20,12 @@ public class Wizard implements Serializable {
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "owner")
     private List<Artifact> artifacts = new ArrayList<>();
 
-
     public Wizard() {
+
     }
 
     public Integer getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(Integer id) {
@@ -34,7 +33,7 @@ public class Wizard implements Serializable {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -42,7 +41,7 @@ public class Wizard implements Serializable {
     }
 
     public List<Artifact> getArtifacts() {
-        return artifacts;
+        return this.artifacts;
     }
 
     public void setArtifacts(List<Artifact> artifacts) {
@@ -57,4 +56,16 @@ public class Wizard implements Serializable {
     public Integer getNumberOfArtifacts() {
         return this.artifacts.size();
     }
+
+    public void removeAllArtifacts() {
+        this.artifacts.stream().forEach(artifact -> artifact.setOwner(null));
+        this.artifacts = new ArrayList<>();
+    }
+
+    public void removeArtifact(Artifact artifact) {
+        // Remove artifact owner.
+        artifact.setOwner(null);
+        this.artifacts.remove(artifact);
+    }
+
 }
