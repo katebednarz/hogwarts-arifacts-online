@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 class WizardControllerTest {
 
     @Autowired
@@ -257,7 +257,7 @@ class WizardControllerTest {
     @Test
     void testAssignArtifactErrorWithNonExistentWizardId() throws Exception {
         // Given
-        doThrow(new ObjectNotFoundException("wizard", 5)).when(this.wizardService).assignArtifact(5, "1250808601744904191");
+        doThrow(new ObjectNotFoundException("wizard",5)).when(this.wizardService).assignArtifact(5, "1250808601744904191");
 
         // When and then
         this.mockMvc.perform(put(this.baseUrl + "/wizards/5/artifacts/1250808601744904191").accept(MediaType.APPLICATION_JSON))
