@@ -2,6 +2,7 @@ package edu.tcu.cs.hogwartsartifactsonline.artifact;
 
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -91,5 +92,12 @@ public class ArtifactController {
                 .collect(Collectors.toList());
         String artifactSummary = this.artifactService.summarize(artifactDtos);
         return new Result(true, StatusCode.SUCCESS, "Summarize Success", artifactSummary);
+    }
+
+    @PostMapping("/search")
+    public Result findArtifactsByCriteria(@RequestBody Map<String, String> searchCriteria, Pageable pageable){
+        Page<Artifact> artifactPage = this.artifactService.findByCriteria(searchCriteria, pageable);
+        Page<ArtifactDto> artifactDtoPage = artifactPage.map(this.artifactToArtifactDtoConverter::convert);
+        return new Result(true, StatusCode.SUCCESS, "Search Success", artifactDtoPage);
     }
 }
