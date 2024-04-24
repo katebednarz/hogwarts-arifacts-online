@@ -9,6 +9,8 @@ import edu.tcu.cs.hogwartsartifactsonline.client.ai.chat.ChatClient;
 import edu.tcu.cs.hogwartsartifactsonline.client.ai.chat.dto.ChatRequest;
 import edu.tcu.cs.hogwartsartifactsonline.client.ai.chat.dto.ChatResponse;
 import edu.tcu.cs.hogwartsartifactsonline.client.ai.chat.dto.Message;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import edu.tcu.cs.hogwartsartifactsonline.artifact.utils.IdWorker;
@@ -79,5 +81,9 @@ public class ArtifactService {
         ChatResponse chatResponse = this.chatClient.generate(chatRequest); // Tell chatClient to generate a text summary based on the given chatRequest.
 
         return chatResponse.choices().get(0).message().content();
+    }
+
+    public Page<Artifact> findAll(Pageable pageable) {
+        return this.artifactRepository.findAll(pageable);
     }
 }
