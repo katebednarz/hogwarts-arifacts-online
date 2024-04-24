@@ -24,9 +24,11 @@ import java.util.Optional;
 import edu.tcu.cs.hogwartsartifactsonline.artifact.utils.IdWorker;
 import edu.tcu.cs.hogwartsartifactsonline.system.exception.ObjectNotFoundException;
 import edu.tcu.cs.hogwartsartifactsonline.wizard.Wizard;
+import org.springframework.test.context.ActiveProfiles;
 
 
 @ExtendWith(MockitoExtension.class)
+@ActiveProfiles(value = "dev")
 public class ArtifactServiceTest {
 
     @Mock
